@@ -34,7 +34,7 @@ jobs:
         run: dotnet build -c Release
   bump-versions:
     name: Bump versions
-    if: github.event.pull_request.merged == true
+    # if: github.event.pull_request.merged == true
     needs: build-and-test 
     runs-on: ubuntu-latest
     steps:
