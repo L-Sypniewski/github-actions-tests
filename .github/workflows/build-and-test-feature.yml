@@ -1,9 +1,9 @@
-name: publish-nuget-packages-on-pull-request-merge
+name: build-and-test-feature-on-pr
 on:
   pull_request:
     branches:
       - develop
-    types: [closed]
+    types: [opened]
 env:
   # Disable the .NET logo in the console output.
   DOTNET_NOLOGO: true
