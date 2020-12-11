@@ -1,0 +1,70 @@
+name: publish-nuget-packages-on-pull-request-merge
+on:
+  pull_request:
+    branches:
+      - develop
+    types: [closed]
+jobs:
+  build:
+      name: Build and test-${{matrix.os}}
+      runs-on: ${{matrix.os}}
+      strategy:
+        matrix:
+          os: [ubuntu-latest, windows-latest, macOS-latest]
+      steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+          fetch-depth: 0
+      - name: 'Install .NET Core SDK'
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version:  5.0.100
+      # - name: 'Dotnet Tool Restore'
+      #   run: dotnet tool restore
+      #   shell: pwsh
+      - name: 'Run tests'
+        run: dotnet test
+        # shell: pwsh
+      - name: 'Build for release configuration'
+        run: dotnet build -C Release
+        # shell: pwsh
+  bump-versions:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set environmental variables
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+          GITHUB_PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO_NAME: ${{ github.event.repository.name }}
+          REPO_OWNER: ${{ github.repository_owner }}
+        run:  |
+          JSON=$(curl --location --request GET 'https://api.github.com/repos/'$REPO_OWNER'/'$REPO_NAME'/pulls/'$GITHUB_PR_NUMBER'/files' \
+          --header 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'Accept: application/vnd.github.v3+json')
+          FILEPATHS=$( echo "$JSON" | jq -r '.[] | .filename' )
+          FILENAMES_ROOTS=$( for word in $FILEPATHS; do echo "$word" | cut -d'/' -f1; done )
+          echo PROJECT_NAMES=$FILENAMES_ROOTS >> $GITHUB_ENV
+          echo "Value: $FILENAMES_ROOTS"
+      - name: Bump Main project version and create tag for develop branch
+        if: contains(env.PROJECT_NAMES, 'Main')
+        id: bump_version_main
+        uses: L-Sypniewski/github-tag-action@2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_BRANCHES: master
+          INITIAL_VERSION: 0.0.0
+          PREFIX: dev-Main-
+      - name: Bump HtmlAgilityPack project version and create tag for develop branch
+        if: contains(env.PROJECT_NAMES, 'HtmlAgilityPack')
+        id: bump_version_html_agility_pack
+        uses: L-Sypniewski/github-tag-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_BRANCHES: master
+          INITIAL_VERSION: 0.0.0
+          PREFIX: dev-HtmlAgilityPack-
