@@ -55,9 +55,9 @@ jobs:
           echo PROJECT_NAMES=$FILENAMES_ROOTS >> $GITHUB_ENV
           echo "Value: $FILENAMES_ROOTS"
       - name: Print variable TEST
-        run:  echo ${{github.event.type}}
+        run:  echo ${{github.event.issue.type}}
       - name: Print variable FILEPATHS
-        run:  echo ${{github.event.state}}
+        run:  echo ${{github.event.issue.state}}
       - name: Print variable LS -a
         run: echo ${{github.event.number}}
       - name: Bump Project-1 project version and create tag for develop branch
