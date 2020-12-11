@@ -3,7 +3,7 @@ on:
   pull_request:
     branches:
       - develop
-    types: [opened, merged]
+    types: [opened, closed]
 env:
   MERGE_IMMEDIATELY: false
   TARGET_BRANCH: ${{ github.event.pull_request.base.ref }}
@@ -16,6 +16,8 @@ env:
 jobs:
   build-and-test:
       name: Build and test-${{matrix.os}}
+      # To avoid running workflow if issue was closed without merging
+       if: github.event.pull_request.merged == true 
       runs-on: ${{matrix.os}}
       strategy:
         matrix:
@@ -44,7 +46,7 @@ jobs:
   bump-versions:
     name: Bump versions
     if: github.event.pull_request.merged == true
-    needs: build-and-test 
+    needs: merge
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
