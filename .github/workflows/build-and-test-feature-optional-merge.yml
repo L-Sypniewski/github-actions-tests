@@ -14,7 +14,7 @@ env:
   # Disable sending .NET CLI telemetry to Microsoft.
   DOTNET_CLI_TELEMETRY_OPTOUT: true
 jobs:
-  build-and-test:
+  build-test-and-optionally-merge:
       name: Build and test-${{matrix.os}}
   # To avoid running workflow if issue was closed without merging
       if: github.event.pull_request.merged == true 
@@ -36,17 +36,16 @@ jobs:
         run: dotnet test
       - name: 'Build for release configuration'
         run: dotnet build -c Release
-  merge:
-    name: Merge to ${{ TARGET_BRANCH }} branch if flag set to true
-    if: MERGE_IMMEDIATELY == true
-    needs: build-and-test
-    uses: ridedott/merge-me-action@v1
-    with:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Merge to ${{ TARGET_BRANCH }} branch if flag set to true
+        if: MERGE_IMMEDIATELY == true
+        needs: build-and-test
+        uses: ridedott/merge-me-action@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   bump-versions:
     name: Bump versions
     if: github.event.pull_request.merged == true
-    needs: merge
+    needs: build-test-and-optionally-merge
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
