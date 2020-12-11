@@ -18,7 +18,7 @@ jobs:
   build-test-and-optionally-merge:
       name: Build and test-${{matrix.os}}, merge automatically = $MERGE_AUTOMATICALLY
   # To avoid running workflow if issue was closed without merging
-      if:  ${{ env.EVENT_ACTION == opened }}
+      if:  github.event.action == 'opened'
       runs-on: ${{matrix.os}}
       strategy:
         matrix:
