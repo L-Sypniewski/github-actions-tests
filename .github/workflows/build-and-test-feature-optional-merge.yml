@@ -37,7 +37,7 @@ jobs:
       - name: 'Build for release configuration'
         run: dotnet build -c Release
       - name: Merge to $TARGET_BRANCH branch if flag set to true
-        if: MERGE_AUTOMATICALLY == true
+        if: $MERGE_AUTOMATICALLY == true
         uses: ridedott/merge-me-action@v1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
