@@ -5,7 +5,7 @@ on:
       - develop
     types: [closed]
 jobs:
-  build:
+  build-and-test:
       name: Build and test-${{matrix.os}}
       runs-on: ${{matrix.os}}
       strategy:
@@ -31,7 +31,9 @@ jobs:
         run: dotnet build -C Release
         # shell: pwsh
   bump-versions:
+    name: Bump versions
     if: github.event.pull_request.merged == true
+    needs: build-and-test 
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
