@@ -54,6 +54,12 @@ jobs:
           FILENAMES_ROOTS=$( for word in $FILEPATHS; do echo "$word" | cut -d'/' -f1; done )
           echo PROJECT_NAMES=$FILENAMES_ROOTS >> $GITHUB_ENV
           echo "Value: $FILENAMES_ROOTS"
+      - name: Print variable TEST
+        run: echo $PROJECT_TO_TEST
+      - name: Print variable FILEPATHS
+        run: echo $FILENAMES_ROOTS
+      - name: Print variable LS -a
+        run: echo $(ls -a)
       - name: Bump Project-1 project version and create tag for develop branch
         if: contains(env.PROJECT_NAMES, 'Project-1')
         id: bump_version_Project-1
