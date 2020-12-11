@@ -16,7 +16,7 @@ env:
 jobs:
   build-and-test:
       name: Build and test-${{matrix.os}}
-      # To avoid running workflow if issue was closed without merging
+  # To avoid running workflow if issue was closed without merging
        if: github.event.pull_request.merged == true 
       runs-on: ${{matrix.os}}
       strategy:
