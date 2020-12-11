@@ -43,6 +43,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   bump-versions:
     name: Bump versions
+    needs: build-and-test-feature-on-pr-optional-merge
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
