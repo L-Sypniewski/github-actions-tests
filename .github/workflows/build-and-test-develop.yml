@@ -2,7 +2,7 @@ name: publish-nuget-packages-on-pull-request-merge
 on:
   pull_request:
     branches:
-      - develop
+      - master
     types: [closed]
 jobs:
   publish-nuget-packages:
