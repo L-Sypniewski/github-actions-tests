@@ -6,6 +6,7 @@ on:
     types: [opened, closed]
 env:
   MERGE_AUTOMATICALLY: false
+  EVENT_ACTION: ${{github.event.action}}
   TARGET_BRANCH: ${{ github.event.pull_request.base.ref }}
   # Disable the .NET logo in the console output.
   DOTNET_NOLOGO: true
@@ -17,7 +18,7 @@ jobs:
   build-test-and-optionally-merge:
       name: Build and test-${{matrix.os}}, merge automatically = $MERGE_AUTOMATICALLY
   # To avoid running workflow if issue was closed without merging
-      if: github.event.pull_request.merged == true 
+      if:  ${{ env.EVENT_ACTION == opened }}
       runs-on: ${{matrix.os}}
       strategy:
         matrix:
@@ -44,7 +45,6 @@ jobs:
   bump-versions:
     name: Bump versions
     if: github.event.pull_request.merged == true
-    needs: build-test-and-optionally-merge
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -75,6 +75,6 @@ jobs:
         uses: L-Sypniewski/github-tag-action@2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_BRANCHES: master
+          RELEASE_BRANCHES: develop
           INITIAL_VERSION: 0.0.0
           PREFIX: dev-Project-1-
