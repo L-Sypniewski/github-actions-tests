@@ -28,7 +28,7 @@ jobs:
         run: dotnet test
         # shell: pwsh
       - name: 'Build for release configuration'
-        run: dotnet build -C Release
+        run: dotnet build -c Release
         # shell: pwsh
   bump-versions:
     name: Bump versions
