@@ -57,9 +57,9 @@ jobs:
       - name: Print variable TEST
         run:  echo ${{github.event.issue.type}}
       - name: Print variable FILEPATHS
-        run:  echo ${{github.event.issue.state}}
+        run:  echo ${{github.event.issue.action}}
       - name: Print variable LS -a
-        run: echo ${{github.event.number}}
+        run: echo ${{github.event.action}}
       - name: Bump Project-1 project version and create tag for develop branch
         if: contains(env.PROJECT_NAMES, 'Project-1')
         id: bump_version_Project-1
