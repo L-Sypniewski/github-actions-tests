@@ -1,10 +1,12 @@
-name: publish-nuget-packages-on-pull-request-merge
+name: build-and-test-feature-on-pr-optional-merge
 on:
   pull_request:
     branches:
       - develop
-    types: [closed]
+    types: [opened, closed]
 env:
+  MERGE_AUTOMATICALLY: false
+  TARGET_BRANCH: ${{ github.event.pull_request.base.ref }}
   # Disable the .NET logo in the console output.
   DOTNET_NOLOGO: true
   # Disable the .NET first time experience to skip caching NuGet packages and speed up the build.
@@ -12,8 +14,10 @@ env:
   # Disable sending .NET CLI telemetry to Microsoft.
   DOTNET_CLI_TELEMETRY_OPTOUT: true
 jobs:
-  build-and-test:
-      name: Build and test-${{matrix.os}}
+  build-test-and-optionally-merge:
+      name: Build and test-${{matrix.os}}, merge automatically = $MERGE_AUTOMATICALLY
+  # To avoid running workflow if issue was closed without merging
+      if: github.event.pull_request.merged == true 
       runs-on: ${{matrix.os}}
       strategy:
         matrix:
@@ -32,10 +36,16 @@ jobs:
         run: dotnet test
       - name: 'Build for release configuration'
         run: dotnet build -c Release
+      - name: Merge to $TARGET_BRANCH branch if flag set to true
+        if: MERGE_AUTOMATICALLY == true
+        needs: build-and-test
+        uses: ridedott/merge-me-action@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   bump-versions:
     name: Bump versions
     if: github.event.pull_request.merged == true
-    needs: build-and-test 
+    needs: build-test-and-optionally-merge
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -55,11 +65,11 @@ jobs:
           echo PROJECT_NAMES=$FILENAMES_ROOTS >> $GITHUB_ENV
           echo "Value: $FILENAMES_ROOTS"
       - name: Print variable TEST
-        run: echo $PROJECT_TO_TEST
+        run:  echo ${{ github.event.pull_request.base.ref }}
       - name: Print variable FILEPATHS
-        run: echo $FILENAMES_ROOTS
+        run:  echo ${{github.event.issue.action}}
       - name: Print variable LS -a
-        run: echo $(ls -a)
+        run: echo ${{github.event.action}}
       - name: Bump Project-1 project version and create tag for develop branch
         if: contains(env.PROJECT_NAMES, 'Project-1')
         id: bump_version_Project-1
