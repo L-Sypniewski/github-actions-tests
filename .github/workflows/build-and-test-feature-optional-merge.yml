@@ -36,7 +36,7 @@ jobs:
         run: dotnet test
       - name: 'Build for release configuration'
         run: dotnet build -c Release
-      - name: Merge to ${{ TARGET_BRANCH }} branch if flag set to true
+      - name: Merge to $TARGET_BRANCH branch if flag set to true
         if: MERGE_IMMEDIATELY == true
         needs: build-and-test
         uses: ridedott/merge-me-action@v1
