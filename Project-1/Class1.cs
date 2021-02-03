@@ -4,6 +4,6 @@ namespace github_actions_tests
 {
     public class Class1
     {
-        private const string s = "edisdadsasasdadsdasaddsfsasdasdffdst";
+        private const string s = "x";
     }
 }
