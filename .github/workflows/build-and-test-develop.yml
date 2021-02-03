@@ -42,6 +42,10 @@ jobs:
         env:
           VERSION: ${{ steps.bump_version_main.outputs.new_tag_without_prefix }}
           PROJECT_NAME: Project-1
-          REPO_OWNER: ${{ github.repository_owner }}
           COMMIT_ID: ${{ github.sha }}
+          REPO_OWNER: ${{ github.repository_owner }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PACKAGE_ID: MyPackage.Id
+          TITLE: MyPackage fancy title
+          PACKAGE_PROJECT_URL: https://github.com/L-Sypniewski/github-actions-tests
+          REPOSITORY_URL: https://github.com/L-Sypniewski/github-actions-tests
