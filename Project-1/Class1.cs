@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace gitsad  hub_actions_tests
+namespace github_actions_tests
 {
     public class Class1
     {
