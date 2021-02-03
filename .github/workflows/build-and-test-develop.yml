@@ -25,41 +25,23 @@ jobs:
           FILENAMES_ROOTS=$( for word in $FILEPATHS; do echo "$word" | cut -d'/' -f1; done )
           echo PROJECT_NAMES=$FILENAMES_ROOTS >> $GITHUB_ENV
           echo "Value: $FILENAMES_ROOTS"
-      - name: Bump version and push tag for Main project if has been modified
-        if: contains(env.PROJECT_NAMES, 'Main')
+      - name: Bump version and push tag for Project-1 project if has been modified
+        if: contains(env.PROJECT_NAMES, 'Project-1')
         id: bump_version_main
         uses: L-Sypniewski/github-tag-action@2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_BRANCHES: master
           INITIAL_VERSION: 0.0.0
-          PREFIX: Main-
+          PREFIX: Project-1-
       - name: Print variable
         run: echo $PROJECT_TO_TEST
-      - name: Bump version and push tag for HtmlAgilityPack project if has been modified
-        if: contains(env.PROJECT_NAMES, 'HtmlAgilityPack')
-        id: bump_version_html_agility_pack
-        uses: L-Sypniewski/github-tag-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_BRANCHES: master
-          INITIAL_VERSION: 0.0.0
-          PREFIX: HtmlAgilityPack-
-      - name: Prepare NuGet package of Main project
-        if: contains(env.PROJECT_NAMES, 'Main')
+      - name: Prepare NuGet package of Project-1 project
+        if: contains(env.PROJECT_NAMES, 'Project-1')
         uses: L-Sypniewski/github-deploy-nuget-action@master
         env:
           VERSION: ${{ steps.bump_version_main.outputs.new_tag_without_prefix }}
-          PROJECT_NAME: Main
-          REPO_OWNER: ${{ github.repository_owner }}
-          COMMIT_ID: ${{ github.sha }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Prepare NuGet package of HtmlAgilityPack project
-        if: contains(env.PROJECT_NAMES, 'HtmlAgilityPack')
-        uses: L-Sypniewski/github-deploy-nuget-action@master
-        env:
-          VERSION: ${{ steps.bump_version_html_agility_pack.outputs.new_tag_without_prefix }}
-          PROJECT_NAME: HtmlAgilityPack
+          PROJECT_NAME: Project-1
           REPO_OWNER: ${{ github.repository_owner }}
           COMMIT_ID: ${{ github.sha }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
