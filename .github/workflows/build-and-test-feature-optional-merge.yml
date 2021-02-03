@@ -2,7 +2,7 @@ name: build-and-test-feature-on-pr-optional-merge
 on:
   pull_request:
     branches:
-      - develop
+      - master
     types: [opened]
 env:
   MERGE_AUTOMATICALLY: false
