@@ -7,17 +7,19 @@
     <LangVersion>9</LangVersion>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <PackageId>SypniewskiCoreLibrary.Core</PackageId>
-    <Title>Sypniewski Core Library - Core</Title>
-    <Authors>Łukasz Sypniewski</Authors>
-    <PackageProjectUrl>https://github.com/L-Sypniewski/Sypniewski-Core-Library</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/L-Sypniewski/Sypniewski-Core-Library</RepositoryUrl>
+    <PackageId>ID z props</PackageId>
+    <Title>Title z props</Title>
+    <Authors>Łukasz Sypniewski props</Authors>
+    <PackageProjectUrl>https://github.com/L-Sypniewski/Sypniewski-Core-Library-porps</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/L-Sypniewski/Sypniewski-Core-Library-props</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Company>Łukasz Sypniewski</Company>
     <Product>Sypniewski Core Library - Core</Product>
     <AssemblyVersion>1.0.0</AssemblyVersion>
     <FileVersion>1.0.0</FileVersion>
-    <PackageVersion>1.2.3</PackageVersion>
+    <PackageVersion>6.6.6</PackageVersion>
+    <Description>Opis z propsow</Description>
+    <PackageTags>Propstag</PackageTags>
   </PropertyGroup>
 
 </Project>
