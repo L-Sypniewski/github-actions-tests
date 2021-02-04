@@ -17,6 +17,7 @@
     <Product>Sypniewski Core Library - Core</Product>
     <Description>Opis z propsow</Description>
     <PackageTags>Propstag</PackageTags>
+    <Version>1.0.0</Version>
   </PropertyGroup>
 
 </Project>
