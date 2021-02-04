@@ -8,6 +8,9 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageVersion>1.2.3</PackageVersion>
+    <Title>Title</Title>
+    <PackageProjectUrl>https://github.com/L-Sypniewski/github-actions-tests</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/L-Sypniewski/github-actions-tests.git</RepositoryUrl>
   </PropertyGroup>
 
 </Project>
