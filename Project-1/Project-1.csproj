@@ -15,9 +15,6 @@
     <RepositoryType>git</RepositoryType>
     <Company>Łukasz Sypniewski</Company>
     <Product>Sypniewski Core Library - Core</Product>
-    <AssemblyVersion>1.0.0</AssemblyVersion>
-    <FileVersion>1.0.0</FileVersion>
-    <PackageVersion>6.6.6</PackageVersion>
     <Description>Opis z propsow</Description>
     <PackageTags>Propstag</PackageTags>
   </PropertyGroup>
