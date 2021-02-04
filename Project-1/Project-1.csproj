@@ -8,6 +8,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Title>Title</Title>
+    <Description>Moja paczka</Description>
     <PackageProjectUrl>https://github.com/L-Sypniewski/github-actions-tests</PackageProjectUrl>
     <RepositoryUrl>https://github.com/L-Sypniewski/github-actions-tests.git</RepositoryUrl>
   </PropertyGroup>
