@@ -8,6 +8,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageVersion>1.2.3</PackageVersion>
+    <RepositoryUrl>https://github.com/L-Sypniewski/Sypniewski-Core-Library</RepositoryUrl>
   </PropertyGroup>
 
 </Project>
