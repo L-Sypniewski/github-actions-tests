@@ -7,21 +7,6 @@
     <LangVersion>9</LangVersion>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <PackageId>SypniewskiCoreLibrary.Core</PackageId>
-    <Title>Sypniewski Core Library - Core</Title>
-    <Authors>Łukasz Sypniewski</Authors>
-    <PackageProjectUrl>https://github.com/L-Sypniewski/Sypniewski-Core-Library</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/L-Sypniewski/Sypniewski-Core-Library</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <Company>Łukasz Sypniewski</Company>
-    <Product>Sypniewski Core Library - Core</Product>
-    <Description>Moj opis</Description>
-    <Copyright>Gombeczka</Copyright>
-    <PackageLicenseUrl>https://github.com/Licencja</PackageLicenseUrl>
-    <PackageTags>moh_tag</PackageTags>
-    <PackageReleaseNotes>Opis zmian:
--ads 
--asda</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>
