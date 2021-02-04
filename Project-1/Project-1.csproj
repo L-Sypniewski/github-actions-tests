@@ -10,8 +10,8 @@
     <PackageId>ID.Moje</PackageId>
     <Title>Title z props</Title>
     <Authors>Łukasz Sypniewski props</Authors>
-    <PackageProjectUrl>https://github.com/L-Sypniewski/Sypniewski-Core-Library-porps</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/L-Sypniewski/Sypniewski-Core-Library-props</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/L-Sypniewski/Sypniewski-Core-Library</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/L-Sypniewski/Sypniewski-Core-Library</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Company>Łukasz Sypniewski</Company>
     <Product>Sypniewski Core Library - Core</Product>
