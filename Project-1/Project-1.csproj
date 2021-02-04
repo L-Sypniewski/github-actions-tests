@@ -1,8 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>github_actions_tests</RootNamespace>
+    <TargetFrameworks>netcoreapp5.0;netstandard2.1</TargetFrameworks>
+    <AssemblyName>SypniewskiCoreLibrary.Core</AssemblyName>
+    <RootNamespace>SypniewskiCore.Core</RootNamespace>
+    <LangVersion>9</LangVersion>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageId>SypniewskiCoreLibrary.Core</PackageId>
+    <Title>Sypniewski Core Library - Core</Title>
+    <Authors>Łukasz Sypniewski</Authors>
+    <PackageProjectUrl>https://github.com/L-Sypniewski/Sypniewski-Core-Library</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/L-Sypniewski/Sypniewski-Core-Library</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Company>Łukasz Sypniewski</Company>
+    <Company>Łukasz Sypniewski</Company>
+    <Product>Sypniewski Core Library - Core</Product>
   </PropertyGroup>
 
 </Project>
