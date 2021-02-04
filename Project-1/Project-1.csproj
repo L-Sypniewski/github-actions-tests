@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>SypniewskiCoreLibrary.Core</AssemblyName>
+    <RootNamespace>SypniewskiCore.Core</RootNamespace>
+    <LangVersion>9</LangVersion>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageVersion>1.2.3</PackageVersion>
+  </PropertyGroup>
+
+</Project>

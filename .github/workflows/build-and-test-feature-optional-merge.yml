@@ -1,0 +1,80 @@
+name: build-and-test-feature-on-pr-optional-merge
+on:
+  pull_request:
+    branches:
+      - master
+    types: [opened, synchronize]
+env:
+  MERGE_AUTOMATICALLY: false
+  EVENT_ACTION: ${{github.event.action}}
+  TARGET_BRANCH: ${{ github.event.pull_request.base.ref }}
+  # Disable the .NET logo in the console output.
+  DOTNET_NOLOGO: true
+  # Disable the .NET first time experience to skip caching NuGet packages and speed up the build.
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  # Disable sending .NET CLI telemetry to Microsoft.
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+jobs:
+  build-test-and-optionally-merge:
+      name: Build and test-${{matrix.os}}, merge automatically = $MERGE_AUTOMATICALLY
+  # To avoid running workflow if issue was closed without merging
+      runs-on: ${{matrix.os}}
+      strategy:
+        matrix:
+          os: [ubuntu-latest]
+      steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+          fetch-depth: 0
+      - name: 'Install .NET Core SDK'
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version:  5.0.100
+      - name: 'Run tests'
+        run: dotnet test
+      - name: 'Build for release configuration'
+        run: dotnet build -c Release
+      - name: Merge to $TARGET_BRANCH branch if flag set to true
+        if: ${{ env.MERGE_AUTOMATICALLY == true }} 
+        uses: ridedott/merge-me-action@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  bump-versions:
+    name: Bump versions
+    needs: build-test-and-optionally-merge
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set environmental variables
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+          GITHUB_PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO_NAME: ${{ github.event.repository.name }}
+          REPO_OWNER: ${{ github.repository_owner }}
+        run:  |
+          JSON=$(curl --location --request GET 'https://api.github.com/repos/'$REPO_OWNER'/'$REPO_NAME'/pulls/'$GITHUB_PR_NUMBER'/files' \
+          --header 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'Accept: application/vnd.github.v3+json')
+          FILEPATHS=$( echo "$JSON" | jq -r '.[] | .filename' )
+          FILENAMES_ROOTS=$( for word in $FILEPATHS; do echo "$word" | cut -d'/' -f1; done )
+          echo PROJECT_NAMES=$FILENAMES_ROOTS >> $GITHUB_ENV
+          echo "Value: $FILENAMES_ROOTS"
+      - name: Print variable TEST
+        run:  echo ${{ github.event.pull_request.base.ref }}
+      - name: Print variable FILEPATHS
+        run:  echo ${{github.event.issue.action}}
+      - name: Print variable LS -a
+        run: echo ${{github.event.action}}
+      - name: Bump Project-1 project version and create tag for develop branch
+        if: contains(env.PROJECT_NAMES, 'Project-1')
+        id: bump_version_Project-1
+        uses: L-Sypniewski/github-tag-action@2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_BRANCHES: develop
+          INITIAL_VERSION: 0.0.0
+          PREFIX: dev-Project-1-

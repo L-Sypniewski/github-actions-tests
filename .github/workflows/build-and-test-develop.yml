@@ -1,0 +1,51 @@
+name: publish-nuget-packages-on-pull-request-merge
+on:
+  pull_request:
+    branches:
+      - master
+    types: [closed]
+jobs:
+  publish-nuget-packages:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set envs
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+          GITHUB_PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO_NAME: ${{ github.event.repository.name }}
+          REPO_OWNER: ${{ github.repository_owner }}
+        run:  |
+          JSON=$(curl --location --request GET 'https://api.github.com/repos/'$REPO_OWNER'/'$REPO_NAME'/pulls/'$GITHUB_PR_NUMBER'/files' \
+          --header 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'Accept: application/vnd.github.v3+json')
+          FILEPATHS=$( echo "$JSON" | jq -r '.[] | .filename' )
+          FILENAMES_ROOTS=$( for word in $FILEPATHS; do echo "$word" | cut -d'/' -f1; done )
+          echo PROJECT_NAMES=$FILENAMES_ROOTS >> $GITHUB_ENV
+          echo "Value: $FILENAMES_ROOTS"
+      - name: Bump version and push tag for Project-1 project if has been modified
+        if: contains(env.PROJECT_NAMES, 'Project-1')
+        id: bump_version_main
+        uses: L-Sypniewski/github-tag-action@2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_BRANCHES: master
+          INITIAL_VERSION: 0.0.0
+          PREFIX: Project-1-
+      - name: Print variable
+        run: echo $PROJECT_TO_TEST
+      - name: Prepare NuGet package of Project-1 project
+        if: contains(env.PROJECT_NAMES, 'Project-1')
+        uses: L-Sypniewski/github-deploy-nuget-action@master
+        env:
+          VERSION: ${{ steps.bump_version_main.outputs.new_tag_without_prefix }}
+          PROJECT_NAME: Project-1
+          COMMIT_ID: ${{ github.sha }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PACKAGE_ID: MyPackage.Id
+          TITLE: MyPackage fancy title
+          PACKAGE_PROJECT_URL: https://github.com/L-Sypniewski/github-actions-tests
+          REPOSITORY_URL: https://github.com/L-Sypniewski/github-actions-tests
