@@ -30,7 +30,7 @@ jobs:
       - name: Bump version and push tag for Project-1 project if has been modified
         if: contains(env.PROJECT_NAMES, 'Project-1')
         id: bump_version_main
-        uses: L-Sypniewski/github-tag-action@v3
+        uses: L-Sypniewski/github-tag-action@prefix-parameter-versioning-based-on-multiple-messages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_BRANCHES: master
