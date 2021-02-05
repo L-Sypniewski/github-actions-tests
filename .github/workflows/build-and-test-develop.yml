@@ -4,6 +4,11 @@ on:
     branches:
       - master
     types: [closed]
+env:
+  PULL_REQUEST_HEAD: ${{ github.event.pull_request.head.sha }}
+  GITHUB_PR_NUMBER: ${{ github.event.pull_request.number }}
+  REPO_NAME: ${{ github.event.repository.name }}
+  REPO_OWNER: ${{ github.repository_owner }}
 jobs:
   publish-nuget-packages:
     if: github.event.pull_request.merged == true
@@ -14,9 +19,6 @@ jobs:
       - name: Set envs
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-          GITHUB_PR_NUMBER: ${{ github.event.pull_request.number }}
-          REPO_NAME: ${{ github.event.repository.name }}
-          REPO_OWNER: ${{ github.repository_owner }}
         run:  |
           JSON=$(curl --location --request GET 'https://api.github.com/repos/'$REPO_OWNER'/'$REPO_NAME'/pulls/'$GITHUB_PR_NUMBER'/files' \
           --header 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' \
@@ -43,9 +45,7 @@ jobs:
           VERSION: ${{ steps.bump_version_main.outputs.new_tag_without_prefix }}
           PROJECT_NAME: Project-1
           COMMIT_ID: ${{ github.sha }}
-          REPO_OWNER: ${{ github.repository_owner }}
           API_KEY: ${{ secrets.GITHUB_TOKEN }}
-          PULL_REQUEST_HEAD: ${{ github.event.pull_request.head.sha }}
           PACKAGE_ID: MyPackage.Id
           TITLE: MyPackage fancy title
           PACKAGE_PROJECT_URL: https://github.com/L-Sypniewski/github-actions-tests
