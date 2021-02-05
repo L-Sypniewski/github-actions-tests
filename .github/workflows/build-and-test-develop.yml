@@ -38,7 +38,7 @@ jobs:
         run: echo $PROJECT_TO_TEST
       - name: Prepare NuGet package of Project-1 project
         if: contains(env.PROJECT_NAMES, 'Project-1')
-        uses: L-Sypniewski/github-deploy-nuget-action@master
+        uses: L-Sypniewski/github-deploy-nuget-action@2
         env:
           VERSION: ${{ steps.bump_version_main.outputs.new_tag_without_prefix }}
           PROJECT_NAME: Project-1
