@@ -5,7 +5,7 @@ on:
       - master
     types: [closed]
 env:
-  PULL_REQUEST_HEAD: ${{ github.event.pull_request.head.sha }}
+  HEAD_COMMIT: ${{ github.event.pull_request.head.sha }}
   GITHUB_PR_NUMBER: ${{ github.event.pull_request.number }}
   REPO_NAME: ${{ github.event.repository.name }}
   REPO_OWNER: ${{ github.repository_owner }}
@@ -35,7 +35,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_BRANCHES: master
           INITIAL_VERSION: 0.0.0
-          PREFIX: Project-1-
+          PREFIX: v
       - name: Print variable
         run: echo $PROJECT_TO_TEST
       - name: Prepare NuGet package of Project-1 project
