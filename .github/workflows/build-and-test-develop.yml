@@ -28,7 +28,7 @@ jobs:
       - name: Bump version and push tag for Project-1 project if has been modified
         if: contains(env.PROJECT_NAMES, 'Project-1')
         id: bump_version_main
-        uses: L-Sypniewski/github-tag-action@2
+        uses: L-Sypniewski/github-tag-action@calculate-version-from-all-commits
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_BRANCHES: master
@@ -44,7 +44,7 @@ jobs:
           PROJECT_NAME: Project-1
           COMMIT_ID: ${{ github.sha }}
           REPO_OWNER: ${{ github.repository_owner }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          API_KEY: ${{ secrets.GITHUB_TOKEN }}
           PACKAGE_ID: MyPackage.Id
           TITLE: MyPackage fancy title
           PACKAGE_PROJECT_URL: https://github.com/L-Sypniewski/github-actions-tests
