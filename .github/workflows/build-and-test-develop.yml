@@ -5,7 +5,7 @@ on:
       - master
     types: [closed]
 env:
-  PULL_REQUEST_HEAD: ${{ github.event.pull_request.head.sha }}
+  HEAD_COMMIT: ${{ github.event.pull_request.head.sha }}
   GITHUB_PR_NUMBER: ${{ github.event.pull_request.number }}
   REPO_NAME: ${{ github.event.repository.name }}
   REPO_OWNER: ${{ github.repository_owner }}
